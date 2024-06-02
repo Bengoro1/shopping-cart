@@ -1,7 +1,6 @@
 import './Item.css';
 
 function Item(props) {
-  console.log(props);
   return (
     <div
       key={props.id}
