@@ -1,0 +1,15 @@
+.container img {
+  height: 200px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  padding: 25px;
+  gap: 10px;
+}
+
+#welcome {
+  grid-column: 1/3;
+}
