@@ -1,31 +1,37 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Item from './Item';
 
 function Shop() {
   const [cart, setCart] = useState([]);
+  const [items, setItems] = useState();
+  const { state: { categoryName }} = useLocation();
+  const [currentCategory, setCurrentCategory] = useState(categoryName);
+  //map items.category if !include category [...categories, category] 
+
+  console.log(currentCategory);
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then((resp) => resp.json())
-      .then((resp) => setCart(resp))
+      .then((resp) => setItems(resp))
       .catch((error) => console.error(error));
   }, []);
 
   return (
     <>
-      {cart && (
+      {items && (
         <>
           <div className='header'>
             Shopping Cart
             <div className='links'>
               <Link to='/'>Home</Link>
-              <Link to='shop'>Shop</Link>
+              <Link to='/shop' state={{categoryName: 'default'}}>Shop</Link>
             </div>
           </div>
           <div className='card-container'>
-            {cart.map((item) => {
-              {console.log(item.category)}
+            {items.map((item) => {
+              {console.log(item)}
               return <Item
                 key={item.id} 
                 title={item.title} 
