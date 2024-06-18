@@ -23,7 +23,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router}/>
-    <div className='footer'>
+      <div className='footer'>
         <div className='signature'>
           {`Copyright © Bengoro1 ${new Date().getFullYear()}`}
           <img
