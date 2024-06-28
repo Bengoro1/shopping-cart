@@ -7,31 +7,53 @@ function Shop() {
   const [items, setItems] = useState();
   const { state: { categoryName }} = useLocation();
   const [currentCategory, setCurrentCategory] = useState(categoryName);
-  //map items.category if !include category [...categories, category] 
-
-  console.log(currentCategory);
+  const [categories, setCategories] = useState();
+  const [filteredItems, setFilteredItems] = useState();
 
   useEffect(() => {
+    const _categories = [];
     fetch('https://fakestoreapi.com/products')
       .then((resp) => resp.json())
-      .then((resp) => setItems(resp))
+      .then((resp) => {
+        setItems(resp);
+        resp.map((x) => {
+          if (!_categories.includes(x.category)) {
+            _categories.push(x.category);           
+          }
+        });
+        setCategories(_categories);
+      })
       .catch((error) => console.error(error));
   }, []);
 
+  useEffect(() => {
+    if (items) {
+      if (currentCategory == 'default') {
+        setFilteredItems(items);
+      } else {
+        setFilteredItems(items.filter(item => currentCategory == item.category));
+      }
+    }
+  }, [currentCategory, items]);
+
+  function handleClick(el) {
+    setCurrentCategory(el);
+  }
+
   return (
     <>
-      {items && (
+      {filteredItems && (
         <>
-          <div className='header'>
-            Shopping Cart
-            <div className='links'>
-              <Link to='/'>Home</Link>
-              <Link to='/shop' state={{categoryName: 'default'}}>Shop</Link>
-            </div>
-          </div>
           <div className='card-container'>
-            {items.map((item) => {
-              {console.log(item)}
+            <div className='category-navbar'>
+            <div onClick={() => handleClick('default')}>All</div>
+            {categories.map((el, index) => {
+              return <div key={index} onClick={() => handleClick(el)}>
+                {el.charAt(0).toUpperCase() + el.slice(1)}
+              </div>
+            })}
+            </div>
+            {filteredItems.map((item) => {
               return <Item
                 key={item.id} 
                 title={item.title} 
@@ -50,8 +72,7 @@ function Shop() {
 
 export default Shop;
 
-// create Categories
-// onClick category show Category items
+// filter if currentCategory != 'default'
 // cart icon on item with amount of items
 // onClick on item position absolute detailed div
 // in header cart icon with item.price * amount

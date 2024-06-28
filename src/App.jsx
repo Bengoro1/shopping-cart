@@ -21,19 +21,10 @@ function App() {
   };
   
   return (
-    <>
-      <div className='header'>
-        Shopping Cart
-        <div className='links'>
-          <Link to='/'>Home</Link>
-          <Link to='shop' state={{categoryName: 'default'}}>Shop</Link>
-        </div>
-      </div>
       <div className='container'>
         <h1 id='welcome'>Welcome</h1>
         {categories.map((el, index) => <Category key={index} category={el} />)}
-      </div>
-    </>
+      </div>    
   );
 };
 
