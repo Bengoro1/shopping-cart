@@ -10,6 +10,7 @@ function Item(props) {
       <p>{props.price}€</p>
       <p>{props.description}</p>
       <p>{props.rating.rate} {props.rating.count}</p>
+      <button onClick={props.onClick}>Add to cart</button>
     </div>
   )
 }

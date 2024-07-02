@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Item from './Item';
 
 function Shop() {
@@ -36,8 +36,12 @@ function Shop() {
     }
   }, [currentCategory, items]);
 
-  function handleClick(el) {
+  function handleCategoryClick(el) {
     setCurrentCategory(el);
+  }
+
+  function handleAddToCart(e) {
+    setCart([...cart, {title: e.title, price: e.price}]);
   }
 
   return (
@@ -46,14 +50,15 @@ function Shop() {
         <>
           <div className='card-container'>
             <div className='category-navbar'>
-            <div onClick={() => handleClick('default')}>All</div>
+            <div onClick={() => handleCategoryClick('default')}>All</div>
             {categories.map((el, index) => {
-              return <div key={index} onClick={() => handleClick(el)}>
+              return <div key={index} onClick={() => handleCategoryClick(el)}>
                 {el.charAt(0).toUpperCase() + el.slice(1)}
               </div>
             })}
             </div>
             {filteredItems.map((item) => {
+              {console.log(item.id)}
               return <Item
                 key={item.id} 
                 title={item.title} 
@@ -61,6 +66,7 @@ function Shop() {
                 price={item.price} 
                 description={item.description}
                 rating={item.rating}
+                onClick={() => handleAddToCart(item)}
               />
             })}
           </div>
