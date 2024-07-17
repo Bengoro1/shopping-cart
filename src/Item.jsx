@@ -16,3 +16,5 @@ function Item(props) {
 }
 
 export default Item;
+
+// description overflow: scroll

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 import Item from './Item';
 
 function Shop() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useOutletContext();
   const [items, setItems] = useState();
   const { state: { categoryName }} = useLocation();
   const [currentCategory, setCurrentCategory] = useState(categoryName);
@@ -41,7 +41,7 @@ function Shop() {
   }
 
   function handleAddToCart(e) {
-    setCart([...cart, {title: e.title, price: e.price}]);
+    setCart([...cart, {title: e.title, price: e.price, id: e.id}]);
   }
 
   return (
@@ -58,7 +58,6 @@ function Shop() {
             })}
             </div>
             {filteredItems.map((item) => {
-              {console.log(item.id)}
               return <Item
                 key={item.id} 
                 title={item.title} 
@@ -77,9 +76,3 @@ function Shop() {
 }
 
 export default Shop;
-
-// filter if currentCategory != 'default'
-// cart icon on item with amount of items
-// onClick on item position absolute detailed div
-// in header cart icon with item.price * amount
-// total = reduce a,b item.price * amount
