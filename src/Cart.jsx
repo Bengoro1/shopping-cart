@@ -1,14 +1,27 @@
 import { useState } from "react";
 
-function Cart({ cart }) {
-  const [amount, setAmount] = useState(1);
+function Cart({ cart, change }) {
+  
+  function CartItem({title, price, amount, id}) {
+    const [_amount, setAmount] = useState(amount);
 
-  function handleDecrement() {
-    setAmount(amount - 1);
-  }
+    function handleChange(value) {
+      setAmount(value);
+      change(value, id);
+    }
 
-  function handleIncrement() {
-    setAmount(amount + 1);
+    return (
+      <div className="cart-item">
+        <p>{title}</p>
+        <p>{price}€</p>
+        <div>
+          <button onClick={() => handleChange(_amount - 1)}>-</button>
+          <input type="text" value={_amount} onChange={(e) => handleChange(e.target.value)} />
+          <button onClick={() => handleChange(_amount + 1)}>+</button>
+        </div>
+        <p>{price * _amount}€</p>
+      </div>
+    )
   }
 
   return (
@@ -16,21 +29,9 @@ function Cart({ cart }) {
       {cart.length > 0 && (
         <div className="cart">
         {cart.map((x) => {
-          return <div className="cart-item" key={x.id}>
-            <p>{x.title}</p>
-            <p>{x.price + '€'}</p>
-            <div>
-              <button onClick={handleDecrement}>-</button>
-              <input type="text" value={amount} onChange={e => setAmount(e.target.value)} />
-              <button onClick={handleIncrement}>+</button>
-            </div>
-            <p>{x.amount}</p>
-          </div>
+          return <CartItem key={x.id} title={x.title} price={x.price} id={x.id} amount={x.amount} />
         })}
-        <>
-          <p>Total</p>
-          <p>{cart.reduce((a, b) => a + b.price, 0)}</p>
-        </>
+        <p>Total: {cart.reduce((a, b) => a + b.price * b.amount, 0)}€</p>
         </div>
       )}
     </>
@@ -40,5 +41,3 @@ function Cart({ cart }) {
 export default Cart;
 
 // CartItem component with amount useState
-// when item already in cart message 'Item already in cart. Do you want to add the same item again?'
-

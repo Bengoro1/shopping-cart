@@ -59,6 +59,17 @@ a {
   align-items: center;
 }
 
+.cart {
+  overflow-y: scroll;
+  font-size: 14px;
+  position: absolute;
+  top: 50px;
+}
+
+.cart p {
+  margin: 0;
+}
+
 .footer {
   background-color: black;
   color: white;

@@ -34,6 +34,14 @@ function App() {
       ]
     },
   ]);
+
+  function changeAmount(value, id) {
+    setCart(cart.map((item) => {
+      if (item.id == id) {
+        return { ...item, amount: value }
+      } else return item;
+    }));
+  }
   
   function Header() {
     const [openCart, setOpenCart] = useState(false);
@@ -46,7 +54,7 @@ function App() {
           <Link to='/shop' state={{categoryName: 'default'}}>Shop</Link>
           <img className='cart-icon' onClick={() => setOpenCart(!openCart)} src='/1413908.png' />
           {openCart && (
-            <Cart cart={cart}/>
+            <Cart change={changeAmount} cart={cart}/>
           )}
         </div>
       </div>
@@ -79,4 +87,3 @@ export default App;
 
 // if cart.length > 0 red dot with cart.length on cart-icon
 // setOpenCart(true) if (mouse hover cart || cart-icon) else setOpenCart(false)
-// cart-icon onClick setOpenCart(!openCart)

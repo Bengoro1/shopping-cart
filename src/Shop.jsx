@@ -41,7 +41,7 @@ function Shop() {
   }
 
   function handleAddToCart(e) {
-    setCart([...cart, {title: e.title, price: e.price, id: e.id}]);
+    setCart([...cart, {title: e.title, price: e.price, id: e.id, amount: 1}]);
   }
 
   return (
@@ -76,3 +76,5 @@ function Shop() {
 }
 
 export default Shop;
+
+// when item already in cart message 'Item already in cart. Do you want to add the same item again?'
