@@ -11,6 +11,8 @@ import { useState } from 'react';
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [openCart, setOpenCart] = useState(false);
+
   const router = createBrowserRouter([
     {
       element: (
@@ -28,7 +30,7 @@ function App() {
         },
         {
           path: 'shop',
-          element: <Shop />,
+          element: <Shop change={changeAmount} />,
           errorElement: <ErrorPage />,
         },
       ]
@@ -38,14 +40,16 @@ function App() {
   function changeAmount(value, id) {
     setCart(cart.map((item) => {
       if (item.id == id) {
-        return { ...item, amount: value }
+        return { ...item, amount: value == 'increment' ? item.amount + 1 : value}
       } else return item;
     }));
   }
+
+  function handleRemove(id) {
+    setCart(cart.filter(a => a.id != id));
+  }
   
   function Header() {
-    const [openCart, setOpenCart] = useState(false);
-
     return (
       <div className='header'>
         Shopping Cart
@@ -53,8 +57,11 @@ function App() {
           <Link to='/'>Home</Link>
           <Link to='/shop' state={{categoryName: 'default'}}>Shop</Link>
           <img className='cart-icon' onClick={() => setOpenCart(!openCart)} src='/1413908.png' />
+          {cart.length > 0 && (
+            <div>{cart.length}</div>
+          )}
           {openCart && (
-            <Cart change={changeAmount} cart={cart}/>
+            <Cart change={changeAmount} remove={handleRemove} cart={cart}/>
           )}
         </div>
       </div>
@@ -84,6 +91,3 @@ function App() {
 };
 
 export default App;
-
-// if cart.length > 0 red dot with cart.length on cart-icon
-// setOpenCart(true) if (mouse hover cart || cart-icon) else setOpenCart(false)

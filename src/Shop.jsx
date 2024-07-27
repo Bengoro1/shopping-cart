@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useOutletContext } from 'react-router-dom';
 import Item from './Item';
+import './Shop.css';
 
-function Shop() {
+function Shop( {change} ) {
   const [cart, setCart] = useOutletContext();
   const [items, setItems] = useState();
   const { state: { categoryName }} = useLocation();
@@ -41,7 +42,13 @@ function Shop() {
   }
 
   function handleAddToCart(e) {
-    setCart([...cart, {title: e.title, price: e.price, id: e.id, amount: 1}]);
+    if (cart.some(cartItem => cartItem.id == e.id)) {
+      if (confirm(`${e.title} already in cart. Do you want to add the same item again?`)) {
+        change('increment', e.id);
+      }
+    } else {
+      setCart([...cart, {title: e.title, price: e.price, id: e.id, amount: 1}]);
+    }
   }
 
   return (
@@ -77,4 +84,3 @@ function Shop() {
 
 export default Shop;
 
-// when item already in cart message 'Item already in cart. Do you want to add the same item again?'
