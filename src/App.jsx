@@ -61,7 +61,8 @@ function App() {
             <div>{cart.length}</div>
           )}
           {openCart && (
-            <Cart change={changeAmount} remove={handleRemove} cart={cart}/>
+            //input unfocused
+            <Cart key='cart' change={changeAmount} remove={handleRemove} cart={cart}/>
           )}
         </div>
       </div>
@@ -91,3 +92,5 @@ function App() {
 };
 
 export default App;
+
+// after cart mount input is unfocused
