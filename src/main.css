@@ -20,6 +20,7 @@ html {
 }
 
 body {
+  min-height: 100%;
   margin: 0;
   place-items: center;
   min-width: 320px;
@@ -60,10 +61,16 @@ a {
 }
 
 .cart {
-  overflow-y: scroll;
   font-size: 14px;
   position: absolute;
   top: 50px;
+  background-color: #242424;
+}
+
+.cart-item-container {
+  height: 400px;
+  overflow-y: auto;
+  overflow-anchor: none;
 }
 
 .cart p {

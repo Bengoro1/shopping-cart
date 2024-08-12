@@ -1,3 +1,12 @@
 .item {
   width: 200px;
 }
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.category-navbar {
+  grid-column: 1 / 3;
+}

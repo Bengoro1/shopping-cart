@@ -29,7 +29,7 @@ function Shop( {change} ) {
 
   useEffect(() => {
     if (items) {
-      if (currentCategory == 'default') {
+      if (currentCategory == 'default' || typeof currentCategory != 'string') {
         setFilteredItems(items);
       } else {
         setFilteredItems(items.filter(item => currentCategory == item.category));
@@ -53,7 +53,7 @@ function Shop( {change} ) {
 
   return (
     <>
-      {filteredItems && (
+      {filteredItems ? (
         <>
           <div className='card-container'>
             <div className='category-navbar'>
@@ -77,7 +77,7 @@ function Shop( {change} ) {
             })}
           </div>
         </>
-      )}
+      ) : (<div></div>)}
     </>
   );
 }
