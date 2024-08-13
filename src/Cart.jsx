@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Cart({ cart, change, remove, openCart }) {
 
@@ -26,18 +26,32 @@ function Cart({ cart, change, remove, openCart }) {
 function CartItem({ item, change, remove }) {
   const [_amount, setAmount] = useState(item.amount);
 
+  useEffect(() => {
+    let timeout;
+
+    if (_amount === 0) {
+      timeout = setTimeout(() => {
+        if (confirm(`Do you want to remove "${item.title}" from the cart?`)) {
+          remove(item.id);
+        } else {
+          setAmount(0);
+          change(0, item.id);
+        }
+      }, 3000);
+    } else clearTimeout(timeout);
+
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, [_amount]);
+
   function handleChange(value) {
-    console.log(value);
-    if (value === 0) {
-      if (confirm(`Do you want to remove "${item.title}" from the cart?`)) {
-        remove(item.id);
-      }
-    } else if (value >= 0) {
-      setAmount(+value);
-      change(+value, item.id);
+    if (value >= 0) {
+      setAmount(value);
+      change(value, item.id);
     }
   }
-
+  
   return (
     <div className="cart-item">
       <p>{item.title}</p>
@@ -47,9 +61,9 @@ function CartItem({ item, change, remove }) {
         <input
           type="number"
           min={0}
-          value={_amount}
-          onChange={(e) => handleChange(e.target.value)}
-          onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+          value={_amount.toString()}
+          onChange={(e) => handleChange(+e.target.value)}
+          onKeyDown={(e) => ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault()}
         />
         <button onClick={() => handleChange(_amount + 1)}>+</button>
       </div>
