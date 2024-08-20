@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
-function Cart({ cart, change, remove, openCart }) {
+function Cart({ cart, change, remove, openCart, emptyCart }) {
+
+  function handlePay() {
+    alert(`Payment Succesfull. Paid amount ${cart.reduce((a, b) => a + b.price * b.amount, 0).toFixed(2)}€`);
+    emptyCart();
+  }
 
   return (
     <>
@@ -16,7 +21,9 @@ function Cart({ cart, change, remove, openCart }) {
               return <CartItem key={x.id} item={x} change={change} remove={remove} />
             })}
           </div>
-          <p>Total: {cart.reduce((a, b) => a + b.price * b.amount, 0).toFixed(2)}€</p>
+          <p style={{display: 'flex', justifyContent: 'space-between'}}>Total: {cart.reduce((a, b) => a + b.price * b.amount, 0).toFixed(2)}€
+            <button onClick={handlePay}>Pay</button>
+          </p>
         </div>
       )}
     </>
@@ -54,21 +61,21 @@ function CartItem({ item, change, remove }) {
   
   return (
     <div className="cart-item">
-      <p>{item.title}</p>
+      <p style={{gridColumn: '1 / 3'}}>{item.title}</p>
       <p>{item.price.toFixed(2)}€</p>
-      <div>
-        <button onClick={() => handleChange(_amount - 1)}>-</button>
+      <button onClick={() => remove(item.id)}>Remove</button>
+      <div style={{display: 'flex'}}>
+        <button onClick={() => handleChange(item.amount - 1)}>-</button>
         <input
           type="number"
           min={0}
-          value={_amount.toString()}
+          value={item.amount.toString()}
           onChange={(e) => handleChange(+e.target.value)}
           onKeyDown={(e) => ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault()}
         />
-        <button onClick={() => handleChange(_amount + 1)}>+</button>
+        <button onClick={() => handleChange(item.amount + 1)}>+</button>
       </div>
-      <p>{(item.price * _amount).toFixed(2)}€</p>
-      <button onClick={() => remove(item.id)}>Remove</button>
+      <p>{(item.price * item.amount).toFixed(2)}€</p>      
     </div>
   )
 }

@@ -9,10 +9,12 @@ function Home() {
     const categories = [{ url: menClothing, name: 'men\'s clothing'}, { url: jewelery , name: 'jewelery'}, { url: electronics, name: 'electronics'}, { url: womenClothing, name: 'women\'s clothing'}];
   
   return (
+    <>
+      <h1 id='welcome'>Welcome</h1>
       <div className='container'>
-        <h1 id='welcome'>Welcome</h1>
         {categories.map((el, index) => <Category key={index} category={el} />)}
       </div>    
+    </>
   );
 }
 

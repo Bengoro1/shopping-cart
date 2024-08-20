@@ -6,8 +6,8 @@ import './Shop.css';
 function Shop( {change} ) {
   const [cart, setCart] = useOutletContext();
   const [items, setItems] = useState();
-  const { state: { categoryName }} = useLocation();
-  const [currentCategory, setCurrentCategory] = useState(categoryName);
+  const location = useLocation();
+  const [currentCategory, setCurrentCategory] = useState(location.state ? location.state.categoryName : 'default');
   const [categories, setCategories] = useState();
   const [filteredItems, setFilteredItems] = useState();
 
@@ -55,15 +55,15 @@ function Shop( {change} ) {
     <>
       {filteredItems ? (
         <>
-          <div className='card-container'>
-            <div className='category-navbar'>
-            <div onClick={() => handleCategoryClick('default')}>All</div>
+          <div className='category-navbar'>
+            <div onClick={() => handleCategoryClick('default')} style={{borderBottom: `1px solid ${currentCategory == 'default' ? 'red' : 'transparent'}`}}>All</div>
             {categories.map((el, index) => {
-              return <div key={index} onClick={() => handleCategoryClick(el)}>
+              return <div key={index} onClick={() => handleCategoryClick(el)} style={{borderBottom: `1px solid ${currentCategory == el ? 'red' : 'transparent'}`}}>
                 {el.charAt(0).toUpperCase() + el.slice(1)}
               </div>
             })}
-            </div>
+          </div>
+          <div className='card-container'>
             {filteredItems.map((item) => {
               return <Item
                 key={item.id} 

@@ -16,7 +16,7 @@ function App() {
     {
       element: (
         <>
-          <Header cart={cart} change={changeAmount} remove={handleRemove} />
+          <Header cart={cart} change={changeAmount} remove={handleRemove} emptyCart={emptyCart}/>
           <Outlet context={[cart, setCart]} />
           <Footer />
         </>
@@ -48,14 +48,16 @@ function App() {
     setCart(cart.filter(a => a.id != id));
   }
   
-  
+  function emptyCart() {
+    setCart([]);
+  }
 
   return (
     <RouterProvider router={router}/>
   );
 };
 
-function Header({ cart, change, remove }) {
+function Header({ cart, change, remove, emptyCart }) {
   const [openCart, setOpenCart] = useState(false);
 
   return (
@@ -64,11 +66,11 @@ function Header({ cart, change, remove }) {
       <div className='links'>
         <Link to='/'>Home</Link>
         <Link to='/shop' state={{categoryName: 'default'}}>Shop</Link>
-        <img className='cart-icon' onClick={() => setOpenCart(!openCart)} src='/1413908.png' />
+        <img className='cart-icon' onClick={() => setOpenCart(cart.length > 0 ? !openCart : false)} src='/1413908.png' />
         {cart.length > 0 && (
           <div>{cart.length}</div>
         )}
-        <Cart key='cart' change={change} remove={remove} cart={cart} openCart={openCart} />
+        <Cart key='cart' change={change} remove={remove} cart={cart} openCart={openCart} emptyCart={emptyCart}/>
       </div>
     </div>
   )
