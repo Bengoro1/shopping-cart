@@ -1,1 +1,1 @@
-[Live preview](https://bengoro1-shopping-cart.netlify.app)
+[Live preview](https://bengoro1-shopping-cart.netlify.app, '_newtab')
